@@ -1,0 +1,60 @@
+testplan:
+  name: plan
+  des: des
+  testgroup1:
+    des: des
+    type: group
+    other:
+    default_config:
+      protocl: http
+      host: www.baidu.com
+      port: 80
+      headers:
+        session1: '123asdASD'
+        session2: '123asdASD'
+    variables:
+      path_var: /
+    controller1:
+      type: controller
+      request:
+                    name: req1
+                    des: des
+                    protocl: http
+                    host: www.baidu.com
+                    port: 80
+                    headers:
+                      session1: '123asdASD'
+                      session2: '123asdASD'
+                    path: ${path_var}
+                    body: '123'
+      controller2:
+              type: controller
+              request2:
+                type: httprequest
+                des: des
+                protocl: http
+                host: www.baidu.com
+                port: 80
+                headers:
+                  session1: '123asdASD'
+                  session2: '123asdASD'
+                path: ${path_var}
+                body: 123
+                after:
+      controller3:
+              type: controller
+              request3:
+                type: request
+                des: des
+                protocl: http
+                host: www.baidu.com
+                port: 80
+                headers:
+                  session1: '123asdASD'
+                  session2: '123asdASD'
+                path: ${path_var}
+                body: 123
+report:
+
+
+

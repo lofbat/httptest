@@ -2,12 +2,15 @@ package pers.httptest.core;
 
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
-import pers.httptest.core.exception.FileIlleagalException;
-import pers.httptest.core.model.PlanModel;
+import pers.httptest.core.exception.CaseIlleagalException;
+import pers.httptest.core.model.MultiTree;
+import pers.httptest.core.sample.Sample;
+import pers.httptest.core.sample.HttpSampleImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 public class Driver {
@@ -16,13 +19,17 @@ public class Driver {
     private Driver(){}
 
     private static void start(File file){
-        Map fileMap=getYamlFileMap(file);
-        Map planInfo=(Map)fileMap.get("testplan");
-        String name=(String)planInfo.get("name");
-        String des=(String)planInfo.get("des");
-        planInfo.remove("name");
-        planInfo.remove("des");
-        PlanModel planModel=new PlanModel(name,des,(Map<String,Map>)planInfo);
+        Map<String,Object> fileMap=(Map<String,Object>)getYamlFileMap(file);
+        MultiTree root=new MultiTree();
+        for(Map.Entry<String,Object> entry:fileMap.entrySet()) {
+            try {
+                root.setUp(null, entry.getKey(), (Map<String, Object>) entry.getValue());
+            } catch (CaseIlleagalException e) {
+                log.error("case parse failed:"+entry.getKey());
+                e.printStackTrace();
+            }
+        }
+        MultiTreeTraversal(root);
     }
 
     private static Map getYamlFileMap(File file){
@@ -34,6 +41,27 @@ public class Driver {
             e.printStackTrace();
         }
         return fileMap;
+    }
+
+    private static void MultiTreeTraversal(MultiTree node){
+        modelParser(node.getName(),node.getType(),node.getVar());
+        List<MultiTree> cl = node.getChildrenList();
+        for(MultiTree m:cl){
+            MultiTreeTraversal(m);
+        }
+    }
+
+    private static void modelParser(String name,String type, Map<String, Object> var){
+        if(type.equals("request")){
+            Sample httpSample=new HttpSampleImpl(name);
+            try {
+                httpSample.getSampleResult(var);
+                log.info(httpSample.getSampleResult(var));
+            } catch (CaseIlleagalException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public static void main(String[] args){

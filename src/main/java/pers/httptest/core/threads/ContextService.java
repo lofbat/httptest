@@ -1,7 +1,12 @@
 package pers.httptest.core.threads;
 
 public class ContextService {
-    private static final ThreadLocal<Context> threadContext=new ThreadLocal<>();
+    private static final ThreadLocal<Context> threadContext=new ThreadLocal<Context>(){
+        @Override
+        public Context initialValue(){
+            return new Context();
+        }
+    };
 
     private static int totalThreads;
 

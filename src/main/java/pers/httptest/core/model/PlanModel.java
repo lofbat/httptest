@@ -24,15 +24,15 @@ public class PlanModel {
 
     public PlanModel(String name, String des, Map map){
         this(name,des);
-        parserChild(map);
+        //parserChild(map);
     }
 
-    private void parserChild(Map<String,Map> map){
+    /*private void parserChild(Map<String,Map> map){
         for(Map.Entry<String,Map> entry:map.entrySet()){
             GroupModel group=new GroupModel(entry.getKey(),);
             addGroup(group);
         }
-    }
+    }*/
 
     public void addGroup(GroupModel group){
         groupList.add(group);

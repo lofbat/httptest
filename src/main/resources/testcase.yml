@@ -1,6 +1,7 @@
 testplan:
   name: plan
   des: des
+  type: plan
   testgroup1:
     des: des
     type: group
@@ -46,15 +47,15 @@ testplan:
               request3:
                 type: request
                 des: des
-                protocl: http
-                host: www.baidu.com
+                method: get
+                protocol: http
+                host: www.dtdream.com
                 port: 80
                 headers:
                   session1: '123asdASD'
                   session2: '123asdASD'
-                path: ${path_var}
+                path: /
                 body: 123
-report:
 
 
 

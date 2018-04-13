@@ -1,6 +1,8 @@
 package pers.httptest.core.threads;
 
 import pers.httptest.assertion.AssertionResult;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class SampleResult {
@@ -28,6 +30,10 @@ public class SampleResult {
 
     private long endTime = 0;
 
+    private boolean error=false;
+
+    private String errorMessage="";
+
     private List<AssertionResult> assertionResults;
 
     private List<SampleResult> subResults;
@@ -38,6 +44,11 @@ public class SampleResult {
 
     public SampleResult(SampleResult sampleResult) {
         this.parent=sampleResult;
+    }
+
+    public void error(String em){
+        this.error=true;
+        this.errorMessage=em;
     }
 
     public SampleResult getParent() {
@@ -124,16 +135,16 @@ public class SampleResult {
         return startTime;
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void start() {
+        this.startTime = System.currentTimeMillis();;
     }
 
     public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
+    public void end() {
+        this.endTime = System.currentTimeMillis();
     }
 
     public List<AssertionResult> getAssertionResults() {
@@ -150,5 +161,27 @@ public class SampleResult {
 
     public void setSubResults(List<SampleResult> subResults) {
         this.subResults = subResults;
+    }
+
+    @Override
+    public String toString() {
+        return "SampleResult{" +
+                "parent=" + parent +
+                ", responseData=" + Arrays.toString(responseData) +
+                ", responseCode='" + responseCode + '\'' +
+                ", label='" + label + '\'' +
+                ", resultFileName='" + resultFileName + '\'' +
+                ", samplerData='" + samplerData + '\'' +
+                ", threadName='" + threadName + '\'' +
+                ", responseMessage='" + responseMessage + '\'' +
+                ", responseHeaders='" + responseHeaders + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", error=" + error +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", assertionResults=" + assertionResults +
+                ", subResults=" + subResults +
+                '}';
     }
 }

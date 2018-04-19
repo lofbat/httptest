@@ -47,15 +47,26 @@ testplan:
               request3:
                 type: request
                 des: des
-                method: get
+                method: post
                 protocol: http
-                host: www.dtdream.com
-                port: 80
+                host: 101.132.92.129
+                port: 8082
                 headers:
-                  session1: '123asdASD'
-                  session2: '123asdASD'
-                path: /
-                body: 123
+                  app-id: '200000001'
+                  Content-Type: 'application/json'
+                path: /service/v1/orders
+                body: '{
+                       	"appId":"200000001",
+                       	"orderNo": "orderno01234567891",
+                       	"amount": 0.01,
+                       	"currency":"cny",
+                       	"clientIp":"127.0.0.1",
+                       	"subject":"主题",
+                       	"body":"描述",
+                       	"userId":"userid123456",
+                       	"timeExpire":30,
+                       	"description":"描述信息",
+                       }'
 
 
 

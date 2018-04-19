@@ -136,7 +136,7 @@ public class HttpSampleImpl implements Sample,HttpInterface{
             httpRequest.setHeader(COOKIE, sb.toString());
         }
 
-        if(httpRequest.getMethod().equals(POST)){
+        if(httpRequest.getMethod().equals("POST")){
             HttpPost hp=(HttpPost)httpRequest;
             BasicHttpEntity entity=new BasicHttpEntity();
             InputStream in=new ByteArrayInputStream(body.getBytes());
@@ -152,7 +152,6 @@ public class HttpSampleImpl implements Sample,HttpInterface{
         CloseableHttpResponse httpResponse;
         try {
             httpResponse=httpClient.execute(httpRequest);
-            log.info(httpResponse);
         } catch (IOException e) {
             res.end();
             res.error(e.getMessage());
@@ -164,6 +163,7 @@ public class HttpSampleImpl implements Sample,HttpInterface{
             bytes = new byte[httpResponse.getEntity().getContent().available()];
             httpResponse.getEntity().getContent().read(bytes);
             res.setResponseData(bytes);
+            res.setResponseMessage(new String(bytes,"utf-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
